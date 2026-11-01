@@ -4,7 +4,7 @@
 
 **生成过程使用可控制耗时和失败阶段的模拟器。上传、文件保存、任务受理、阶段状态、账号隔离和历史记录均为真实实现；成功结果为带 DEMO 标记的预置 SVG，未对用户图片进行真实排版或 AI 合成。**
 
-本 README 对应《项目介绍.md》的 R-01—R-14。业务模块及本地验收已完成；源码与实际验证的逐项对应见 [完整验收记录](source/docs/module-07.md)。
+已完成模板浏览、真实上传、后台模拟制作、多任务跟踪与个人历史，并通过本地容器验收。运行、接口、模拟验证、测试与交付边界均在本 README 中说明。
 
 ## 1. 技术版本与职责
 
@@ -24,12 +24,9 @@ Java 使用数据库持久队列和一个工作线程，不依赖 Redis、消息
 ```text
 .
 ├── README.md                          # 完整交付说明
-├── 项目介绍.md                         # 原始题目
-├── 开发计划.md                         # 模块 1—7 的范围与完成状态
 ├── .github/workflows/ci.yml            # push / pull request 容器检查
-├── img/                               # 题目参考截图
 └── source/
-    ├── README.md                      # 在源码目录阅读的同版说明
+    ├── README.md                      # 源码目录的快速启动入口
     ├── .env.example                   # 非敏感的本地配置示例
     ├── compose.yaml                   # 前端、Java、MySQL 与检查工具
     ├── compose.dev.yaml               # 可选源码挂载与开发模式
@@ -55,11 +52,10 @@ Java 使用数据库持久队列和一个工作线程，不依赖 Redis、消息
     │       │   ├── db/migration/      # V1—V5 结构、索引和初始化数据
     │       │   └── static/api/catalog-assets/ # 六张本地模板 SVG
     │       └── test/                  # Java 单元及真实 MySQL 集成测试
-    ├── scripts/                       # 模拟命令、整站验收、源码打包
-    └── docs/                          # module-01—07、逐文件用途及截图
+    └── scripts/                       # 模拟命令、整站验收、源码打包
 ```
 
-完整文件用途见 [模块 07 目录说明](source/docs/module-07.md#当前目录结构与每个文件用途)。托管或交付时保留外层目录，使 `.github/workflows/ci.yml` 位于仓库根目录。
+托管或交付时保留外层目录，使 `.github/workflows/ci.yml` 位于仓库根目录。开发笔记、题目参考图和验收截图仅在本地保留，不属于仓库交付内容。
 
 ## 3. 快速启动与停止
 
@@ -318,7 +314,7 @@ Testcontainers 服务仅在测试时挂载 Docker socket，创建一次性 MySQL
 
 端口可覆盖：`ACCEPTANCE_FRONTEND_PORT=3207 ACCEPTANCE_BACKEND_PORT=8207 sh scripts/acceptance.sh`。成功后需要保留页面时使用 `ACCEPTANCE_KEEP=1`，脚本打印精确清理命令。浏览器使用 127.0.0.1:3107，避免与 localhost 的普通项目共用 Cookie。测试凭据随机生成，仅存在临时状态卷，不打印或交付。
 
-GitHub Actions 在 **push / pull_request** 触发三个 job：frontend 检查前端，backend 通过 Testcontainers 测试并打包，acceptance 执行全栈脚本。上述本地等价入口已通过，**远程 CI 尚未确认通过**，运行结果以 [GitHub Actions](https://github.com/Hxinya/material-studio/actions) 为准，不能将配置存在描述为远程 CI 已通过。浏览器桌面/375 像素交互证据及需求映射见 [模块 07](source/docs/module-07.md)。
+GitHub Actions 在 **push / pull_request** 触发三个 job：frontend 检查前端，backend 通过 Testcontainers 测试并打包，acceptance 执行全栈脚本。上述本地等价入口已通过，**远程 CI 尚未确认通过**，运行结果以 [GitHub Actions](https://github.com/Hxinya/material-studio/actions) 为准，不能将配置存在描述为远程 CI 已通过。桌面及 375 像素小屏交互已在本地验证，仓库不包含开发过程截图。
 
 ## 11. 可选开发模式
 
@@ -371,21 +367,19 @@ docker compose up -d --wait --wait-timeout 180
 
 具体例子：多任务历史可能收到迟到的旧列表/详情快照，导致成功任务短暂回到处理中。实现中使用包含 owner/taskId 的查询键、AbortSignal 与单调阶段比较，统一合并详情缓存；再用 QueryObserver 测试覆盖迟到响应、退出清缓存、终态停止，并用 MSW 组件测试确认查询 503 仍显示原业务状态、点击恢复后继续更新。通过后才记录完成，没有用前端定时文案代替后端阶段。
 
-投入包含开发、下载/构建、验证和文档整理。历史模块记录的会话估算分别约为：模块 1 20 分钟、模块 2 30 分钟、模块 3 25 分钟、模块 4 15 分钟、模块 5 20 分钟、模块 6 15 分钟。模块 7 有日志可核对的操作窗口约 6 分钟，另含未单独计时的阅读准备。本轮 README 按现有源码再次整理。这些是 AI 辅助会话估算，未用统一计时器，**不能还原为可靠的人工总工时**；不包含本机环境安装和各轮间暂停，不将预估值冒充精确实测。
-
-各轮实现/修正/验证记录见 [模块 01](source/docs/module-01.md)、[模块 02](source/docs/module-02.md)、[模块 03](source/docs/module-03.md)、[模块 04](source/docs/module-04.md)、[模块 05](source/docs/module-05.md)、[模块 06](source/docs/module-06.md)、[模块 07](source/docs/module-07.md)。无需提交私人聊天记录或账号。
+投入包含开发、下载/构建、验证和文档整理，分多轮会话完成。历史记录中各业务开发轮次约 15—30 分钟，统一验收另有约 6 分钟的可核对操作窗口及未单独计时的准备。上述数字是 AI 辅助会话估算，未使用统一计时器，不能还原为可靠的人工总工时；不包含本机环境安装和各轮之间的暂停。
 
 ## 15. 来源、交付与源码校验
 
 工程按题目组织，没有复制现成素材制作业务项目；Next.js/React/Tailwind 用于路由、界面和构建，Spring Boot/Security/Session 用于后端与认证，MyBatis/Flyway 用于 SQL 访问和迁移，TanStack Query 管理服务器状态，测试框架用于验证。具体版本/来源依赖坐标见 package-lock.json、pom.xml 与 Maven settings。
 
-题目截图保存在 img/，仅作为布局参考；六张业务 SVG 封面、演示标记和自动验收 PNG 为本项目构造，不复用题目截图作为输出，不依赖内部或付费素材。用户手工测试图片由用户自行准备。容器测试参考 [Testcontainers 官方文档](https://java.testcontainers.org/supported_docker_environment/continuous_integration/dind_patterns/)，HTTP 模拟参考 [MSW Node 文档](https://mswjs.io/guides/integrations/node)。
+页面布局参考题目示例，题目图片不随仓库交付。六张业务 SVG 封面、演示标记和自动验收 PNG 为本项目构造，不复用题目截图作为输出，不依赖内部或付费素材。用户手工测试图片由用户自行准备。容器测试参考 [Testcontainers 官方文档](https://java.testcontainers.org/supported_docker_environment/continuous_integration/dind_patterns/)，HTTP 模拟参考 [MSW Node 文档](https://mswjs.io/guides/integrations/node)。
 
-源码仓库：[Hxinya/material-studio](https://github.com/Hxinya/material-studio)。交付包含 Git 仓库及备用源码 ZIP；验收 commit 以最终提交说明中的完整 SHA 为准。包内包含前后端、依赖版本/锁文件、五个迁移及种子、本地素材、CI、README 和模块文档。根目录 delivery/ 存放生成的 ZIP 与整包 SHA-256；打包命令在 source/ 执行：
+源码仓库：[Hxinya/material-studio](https://github.com/Hxinya/material-studio)。交付包含 Git 仓库及备用源码 ZIP；验收 commit 以最终提交说明中的完整 SHA 为准。包内包含前后端、依赖版本/锁文件、五个迁移及种子、本地素材、CI 和 README。根目录 delivery/ 存放生成的 ZIP 与整包 SHA-256；打包命令在 source/ 执行：
 
 ```bash
 mkdir -p ../delivery
 docker run --rm -v "$PWD/..:/workspace:ro" -v "$PWD/../delivery:/output" python:3.13-alpine python /workspace/source/scripts/package-source.py
 ```
 
-打包白名单排除真实 .env、用户上传/数据库数据、node_modules、.next、target、日志、缓存和旧 ZIP。ZIP 内含逐文件 MANIFEST.sha256，脚本会读回校验压缩完整性与每项摘要；ZIP 旁的 .zip.sha256 用于整包校验。解压后进入 material-studio/source，即可按快速启动运行。
+打包白名单排除题目参考图、分模块开发文档及验收截图、真实 .env、用户上传/数据库数据、node_modules、.next、target、日志、缓存和旧 ZIP。ZIP 内含逐文件 MANIFEST.sha256，脚本会读回校验压缩完整性与每项摘要；ZIP 旁的 .zip.sha256 用于整包校验。解压后进入 material-studio/source，即可按快速启动运行。

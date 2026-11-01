@@ -7,9 +7,9 @@ import zipfile
 root = Path("/workspace")
 output = Path("/output")
 output.mkdir(parents=True, exist_ok=True)
-blocked = {"node_modules", ".next", "target", "coverage", ".git", ".DS_Store", "__pycache__", "data"}
+blocked = {"node_modules", ".next", "target", "coverage", ".git", ".DS_Store", "__pycache__", "data", "docs"}
 files = []
-for folder in ("source", ".github", "img"):
+for folder in ("source", ".github"):
     for path in (root / folder).rglob("*"):
         relative = path.relative_to(root)
         if path.is_symlink() or not path.is_file() or any(part in blocked for part in relative.parts):
@@ -19,7 +19,7 @@ for folder in ("source", ".github", "img"):
         if path.suffix in {".log", ".tsbuildinfo", ".pyc", ".zip"}:
             continue
         files.append(path)
-files.extend(root / name for name in (".gitignore", "README.md", "开发计划.md", "项目介绍.md"))
+files.extend(root / name for name in (".gitignore", "README.md"))
 files = sorted(set(files), key=lambda p: p.relative_to(root).as_posix())
 archive = output / f"material-studio-source-{datetime.now(timezone.utc):%Y-%m-%d}.zip"
 manifest = []

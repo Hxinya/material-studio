@@ -10,3 +10,9 @@
 *.log
 source/backend/data/
 delivery/
+
+# Local requirements, development notes and verification screenshots
+/img/
+/source/docs/
+/开发计划.md
+/项目介绍.md
