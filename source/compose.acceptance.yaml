@@ -1,0 +1,16 @@
+# Used only by scripts/acceptance.sh with a unique project name and clean volumes.
+services:
+  acceptance:
+    profiles: ["tools"]
+    image: node:24-alpine
+    entrypoint: ["node", "/tools/acceptance.mjs"]
+    volumes:
+      - ./scripts:/tools:ro
+      - acceptance_state:/state
+    environment:
+      API_BASE_URL: http://frontend:3000
+    depends_on:
+      frontend:
+        condition: service_healthy
+volumes:
+  acceptance_state:

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <title>霓虹侧影 · 原创示例插画</title>
+  <defs><radialGradient id="glow"><stop stop-color="#31595f"/><stop offset="1" stop-color="#111c29"/></radialGradient><linearGradient id="face" x2="1" y2="0"><stop stop-color="#27485e"/><stop offset=".8" stop-color="#7461a1"/><stop offset="1" stop-color="#e58fba"/></linearGradient></defs>
+  <path fill="url(#glow)" d="M0 0h720v900H0z"/>
+  <circle cx="359" cy="414" r="229" fill="none" stroke="#9ad7ca" stroke-width="3"/><circle cx="359" cy="414" r="240" fill="none" stroke="#78b7ab" stroke-opacity=".2" stroke-width="12"/>
+  <path d="M126 900q-10-205 157-265l9-92-44-80 14-132q29-103 126-94 134 0 111 154l49 72-55 22-6 83q-35 51-88 38l-4 72q127 45 157 222" fill="url(#face)"/>
+  <path d="M271 452q43-26 56-87 16-33 84-38l87 15q-1-118-125-120-146-3-143 150 1 88 54 118z" fill="#142232"/>
+  <path d="m491 395 9 20m-2 72-31 4m-72 114q-28-11-47-38" stroke="#b8d8cf" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M88 174V98h76m468 584v76h-76" fill="none" stroke="#a3dfcc" stroke-width="2"/>
+  <text x="40" y="801" font-family="Arial,sans-serif" font-size="77" font-weight="700" letter-spacing="-3" fill="#c9f3d9">AFTER HOURS</text><text x="44" y="847" font-family="Arial,sans-serif" font-size="13" letter-spacing="6" fill="#8db5b8">FIND YOUR OWN LIGHT</text><text x="546" y="111" font-family="Arial,sans-serif" font-size="12" letter-spacing="3" fill="#a8d7cd">NO. 04</text>
+</svg>

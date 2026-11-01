@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <title>拍立得日记 · 原创示例插画</title>
+  <defs><pattern id="lines" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M0 39h40" stroke="#879a74" stroke-opacity=".16"/></pattern></defs>
+  <path fill="#cbd1b8" d="M0 0h720v900H0z"/><path fill="url(#lines)" d="M0 0h720v900H0z"/>
+  <text x="43" y="78" font-family="Arial,sans-serif" font-size="12" letter-spacing="5" fill="#4b604b">THE LITTLE THINGS, KEPT FOREVER</text>
+  <g transform="rotate(-12 259 344)"><path d="M65 154h367v418H65z" fill="#6e795e" opacity=".2"/><path d="M54 142h367v418H54z" fill="#f6f1e5"/><path d="M74 163h327v289H74z" fill="#cba87c"/><circle cx="308" cy="241" r="43" fill="#f5db9d"/><path d="m74 379 103-143 141 179 83-88v125H74" fill="#62867b"/><path d="m74 414 163-78 164 97v19H74" fill="#395f55"/><text x="83" y="510" font-family="Georgia,serif" font-size="27" font-style="italic" fill="#5f6851">our first adventure</text></g>
+  <g transform="rotate(12 477 530)"><path d="M301 332h354v418H301z" fill="#6e795e" opacity=".22"/><path d="M289 321h354v418H289z" fill="#f9f5e9"/><path d="M309 342h314v286H309z" fill="#b87856"/><path d="M309 506q135-138 314 0v122H309" fill="#ddb787"/><path d="M309 561q158-103 314 8v59H309" fill="#789984"/><path d="M396 628v-62q0-37 33-37t33 37v62m20 0v-54q0-38 33-38t33 38v54" fill="#3c6156"/><circle cx="430" cy="507" r="23" fill="#edcf9b"/><circle cx="515" cy="515" r="22" fill="#e9c397"/><text x="324" y="691" font-family="Georgia,serif" font-size="28" font-style="italic" fill="#5f6851">and all the days after.</text></g>
+  <path d="m192 132 65-14 8 33-65 15m258 167 70 14-7 32-69-14" fill="#d6bd82" opacity=".9"/>
+  <text x="40" y="846" font-family="Georgia,serif" font-size="54" font-style="italic" fill="#47614e">a diary of us.</text><path d="m601 789 8 17 19 3-14 14 3 19-18-9-17 9 3-20-13-14 20-2z" fill="#9e5c3e"/>
+</svg>

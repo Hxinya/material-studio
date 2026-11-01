@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <title>山海明信片 · 原创示例插画</title>
+  <defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#e3cba0"/><stop offset="1" stop-color="#f9edd4"/></linearGradient><pattern id="paper" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="2" r=".65" fill="#4e5b44" opacity=".1"/></pattern></defs>
+  <path fill="#dfd9c9" d="M0 0h720v900H0z"/>
+  <text x="48" y="62" fill="#53644d" font-family="Arial,sans-serif" font-size="13" letter-spacing="5">POSTCARDS FROM EVERYWHERE</text>
+  <g transform="rotate(-6 360 450)"><path fill="#b1ab9c" opacity=".3" d="M66 132h610v635H66z"/><path fill="#f9f4e6" d="M50 116h610v635H50z"/><path fill="url(#sky)" d="M73 140h564v529H73z"/>
+  <circle cx="474" cy="280" r="75" fill="#bd623d"/><path d="m73 462 172-174 119 133 80-68 193 176v140H73" fill="#8d9d80"/><path d="m73 566 185-132 123 91 115-80 141 89v135H73" fill="#344f48"/><path d="M73 588q139-53 271 1t293-12v92H73" fill="#91b8ae"/>
+  <path d="M82 618q125-38 242 1m73 12q110 22 230-26M115 650q93-18 164-7" fill="none" stroke="#e6e7cf" stroke-width="3"/>
+  <text x="80" y="719" fill="#4c5745" font-family="Georgia,serif" font-size="25" font-style="italic">a little further, a little slower.</text></g>
+  <circle cx="578" cy="751" r="53" fill="none" stroke="#5e7057" stroke-width="2"/><circle cx="578" cy="751" r="45" fill="none" stroke="#5e7057"/><text x="552" y="757" fill="#5e7057" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">AWAY</text>
+  <path fill="url(#paper)" d="M0 0h720v900H0z"/><text x="48" y="858" fill="#6c7860" font-family="Arial,sans-serif" font-size="12" letter-spacing="3">COLLECT MOMENTS / NO. 01</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <title>城市拼贴 · 原创示例插画</title>
+  <defs><pattern id="windows" width="38" height="52" patternUnits="userSpaceOnUse"><path fill="#b9be8b" d="M9 9h16v27H9z"/></pattern><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M0 0h25v25" fill="none" stroke="#efeee0" stroke-opacity=".1"/></pattern></defs>
+  <path fill="#c9d76c" d="M0 0h720v900H0z"/><text x="42" y="71" font-family="Arial,sans-serif" font-size="14" letter-spacing="5" fill="#333c2a">TAKE THE LONG WAY HOME</text>
+  <path d="m0 161 720-32v515L0 719z" fill="#293e3b"/><path fill="url(#grid)" d="M0 130h720v580H0z"/>
+  <g transform="rotate(7 190 420)"><path d="M-20 242h303v444H-20z" fill="#ead8ba"/><path d="M3 273h257v346H3z" fill="#a54e37"/><path d="M26 306h209v313H26z" fill="url(#windows)"/><path d="M-12 530h285v32H-12z" fill="#383f34"/></g>
+  <g transform="rotate(-9 480 410)"><path d="M323 208h309v422H323z" fill="#e7e2d2"/><path d="M343 230h269v339H343z" fill="#698378"/><path d="m360 569 35-244h96v244m12 0V291h89v278" fill="#253b39"/><path d="M415 347v190m29-190v190m84-223v223m28-223v223m28-223v223" stroke="#b4bc94" stroke-width="9"/><text x="351" y="609" font-family="Arial,sans-serif" font-size="15" letter-spacing="3" fill="#354a40">STORIES AT EVERY CORNER</text></g>
+  <path d="m590 163 24-10 21 59-25 9zm-353 475 27-6 15 66-27 5z" fill="#f0c382" opacity=".85"/>
+  <text x="36" y="773" font-family="Arial,sans-serif" font-size="83" font-weight="900" letter-spacing="-5" fill="#263c34">CITY / NOTES</text><path d="M40 802h640" stroke="#263c34" stroke-width="2"/>
+  <text x="43" y="842" font-family="Arial,sans-serif" font-size="12" letter-spacing="3" fill="#263c34">TWO PICTURES. ONE NEW PERSPECTIVE.</text>
+</svg>

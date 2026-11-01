@@ -1,0 +1,144 @@
+name: material-studio
+
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-material_studio}
+      MYSQL_USER: ${MYSQL_USER:-material_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-local_app_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-local_root_password}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", 'MYSQL_PWD="$$MYSQL_PASSWORD" mysql --protocol=TCP -h 127.0.0.1 -u "$$MYSQL_USER" "$$MYSQL_DATABASE" -e "SELECT 1" >/dev/null 2>&1']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./backend
+      target: runtime
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-material_studio}?connectionTimeZone=UTC
+      DB_USER: ${MYSQL_USER:-material_app}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-local_app_password}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      MATERIAL_DIRECTORY: /data/materials
+      TASK_SIMULATION_CONTROLS_ENABLED: ${TASK_SIMULATION_CONTROLS_ENABLED:-true}
+      TASK_CHECK_DELAY_MS: ${TASK_CHECK_DELAY_MS:-1500}
+      TASK_GENERATE_DELAY_MS: ${TASK_GENERATE_DELAY_MS:-3500}
+      TASK_FINALIZE_DELAY_MS: ${TASK_FINALIZE_DELAY_MS:-1500}
+    volumes:
+      - materials_data:/data/materials
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8080}:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8080/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ./frontend
+      target: runtime
+    environment:
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
+  frontend-check:
+    profiles: ["tools"]
+    build:
+      context: ./frontend
+      target: development
+    command: ["sh", "-c", "npm run lint && npm run typecheck && npm run test && npm run build"]
+
+  task-demo:
+    profiles: ["tools"]
+    build:
+      context: ./frontend
+      target: development
+    entrypoint: ["node", "/tools/task-demo.mjs"]
+    command: []
+    volumes:
+      - ./scripts:/tools:ro
+    stdin_open: true
+    tty: true
+    environment:
+      API_BASE_URL: http://backend:8080
+      PUBLIC_APP_URL: http://localhost:${FRONTEND_PORT:-3000}
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend-check:
+    profiles: ["tools"]
+    build:
+      context: ./backend
+      target: development
+    environment:
+      DB_URL: jdbc:mysql://mysql-test:3306/material_studio_test?connectionTimeZone=UTC
+      DB_USER: material_test
+      DB_PASSWORD: local_test_password
+      SESSION_COOKIE_SECURE: "false"
+      TASK_WORKER_ENABLED: "false"
+    command: ["mvn", "--batch-mode", "verify"]
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+
+  backend-container-check:
+    profiles: ["tools"]
+    build:
+      context: ./backend
+      target: development
+    environment:
+      USE_TESTCONTAINERS: "true"
+      TASK_WORKER_ENABLED: "false"
+      SESSION_COOKIE_SECURE: "false"
+      TESTCONTAINERS_HOST_OVERRIDE: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: ["mvn", "--batch-mode", "verify"]
+
+  mysql-test:
+    profiles: ["tools"]
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: material_studio_test
+      MYSQL_USER: material_test
+      MYSQL_PASSWORD: local_test_password
+      MYSQL_ROOT_PASSWORD: local_test_root_password
+    volumes:
+      - mysql_test_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", 'MYSQL_PWD="$$MYSQL_PASSWORD" mysql --protocol=TCP -h 127.0.0.1 -u "$$MYSQL_USER" "$$MYSQL_DATABASE" -e "SELECT 1" >/dev/null 2>&1']
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  materials_data:
+  mysql_data:
+  mysql_test_data:

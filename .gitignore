@@ -1,0 +1,12 @@
+.DS_Store
+**/node_modules/
+**/.next/
+**/target/
+**/*.tsbuildinfo
+**/coverage/
+**/.env
+**/.env.local
+**/.env.*.local
+*.log
+source/backend/data/
+delivery/

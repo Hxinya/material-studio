@@ -1,0 +1,45 @@
+name: Build and verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: source
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint, typecheck, test and build in container
+        run: docker compose --profile tools run --build --rm frontend-check
+
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: source
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test and package with disposable Testcontainers MySQL
+        run: docker compose --profile tools run --build --rm backend-container-check
+      - name: Clean up
+        if: always()
+        run: docker compose --profile tools down --volumes --remove-orphans
+
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: source
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean-start, full-stack scenarios and persistent-volume recreation
+        run: sh scripts/acceptance.sh
