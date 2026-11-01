@@ -314,7 +314,15 @@ Testcontainers 服务仅在测试时挂载 Docker socket，创建一次性 MySQL
 
 端口可覆盖：`ACCEPTANCE_FRONTEND_PORT=3207 ACCEPTANCE_BACKEND_PORT=8207 sh scripts/acceptance.sh`。成功后需要保留页面时使用 `ACCEPTANCE_KEEP=1`，脚本打印精确清理命令。浏览器使用 127.0.0.1:3107，避免与 localhost 的普通项目共用 Cookie。测试凭据随机生成，仅存在临时状态卷，不打印或交付。
 
-GitHub Actions 在 **push / pull_request** 触发三个 job：frontend 检查前端，backend 通过 Testcontainers 测试并打包，acceptance 执行全栈脚本。上述本地等价入口已通过，**远程 CI 尚未确认通过**，运行结果以 [GitHub Actions](https://github.com/Hxinya/material-studio/actions) 为准，不能将配置存在描述为远程 CI 已通过。桌面及 375 像素小屏交互已在本地验证，仓库不包含开发过程截图。
+GitHub Actions 在 **push / pull_request** 触发三个 job：frontend 检查前端，backend 通过 Testcontainers 测试并打包，acceptance 执行全栈脚本。2026-11-01 已确认源码验收版本的三个远程 job 均为 **success**，详见 [已通过的 CI 运行](https://github.com/Hxinya/material-studio/actions/runs/41286208684)。后续提交的结果以 [Actions 列表](https://github.com/Hxinya/material-studio/actions) 为准。桌面及 375 像素小屏交互已在本地验证，仓库不包含开发过程截图。
+
+### 干净克隆与源码验收版本
+
+源码验收 commit：[`18cdf36ce59062a0ada56e07afe8a2309aa5a418`](https://github.com/Hxinya/material-studio/commit/18cdf36ce59062a0ada56e07afe8a2309aa5a418)。2026-11-01 从 GitHub 重新克隆到新的临时目录，确认只包含 127 个仓库文件，没有本机 .env、运行数据、node_modules、参考图或开发文档；随后执行 README 中的 `sh scripts/acceptance.sh`，退出码为 0。
+
+验收使用独立项目及全新 MySQL/素材卷，通过初始化、单/双图上传、202 多任务受理、成功与三个指定失败点、新会话恢复、跨用户隔离，以及 down/up 后数据库、原图、输入副本、结果和 JDBC 会话持久化。未完成任务按约定标记中断失败；环境最终自动清理，原项目数据未受影响。构建利用 Docker 缓存，但源码与数据来自新克隆及全新数据卷，未做完全断网或无镜像缓存验收。
+
+本次结果记录之后只更新 README，业务源码保持上述验收版本；含说明更新的最终交付 commit 以提交说明中的完整 SHA 为准。
 
 ## 11. 可选开发模式
 
@@ -367,7 +375,7 @@ docker compose up -d --wait --wait-timeout 180
 
 具体例子：多任务历史可能收到迟到的旧列表/详情快照，导致成功任务短暂回到处理中。实现中使用包含 owner/taskId 的查询键、AbortSignal 与单调阶段比较，统一合并详情缓存；再用 QueryObserver 测试覆盖迟到响应、退出清缓存、终态停止，并用 MSW 组件测试确认查询 503 仍显示原业务状态、点击恢复后继续更新。通过后才记录完成，没有用前端定时文案代替后端阶段。
 
-投入包含开发、下载/构建、验证和文档整理，分多轮会话完成。历史记录中各业务开发轮次约 15—30 分钟，统一验收另有约 6 分钟的可核对操作窗口及未单独计时的准备。上述数字是 AI 辅助会话估算，未使用统一计时器，不能还原为可靠的人工总工时；不包含本机环境安装和各轮之间的暂停。
+投入包含开发、下载/构建、验证和文档整理，分多轮会话完成。历史记录中各业务开发轮次约 15—30 分钟，统一验收另有约 6 分钟的可核对操作窗口及未单独计时的准备。已核对这些记录的性质：上述数字是 AI 辅助会话估算，实际人工投入未统一计时，无法准确补录，不能还原为可靠的人工总工时；不包含本机环境安装和各轮之间的暂停。
 
 ## 15. 来源、交付与源码校验
 
